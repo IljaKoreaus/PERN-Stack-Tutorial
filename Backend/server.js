@@ -4,6 +4,8 @@ import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
 
+import productRoutes from "./routes/productRoutes.js";
+
 dotenv.config();
 
 const PORT = process.env.PORT;
@@ -15,10 +17,7 @@ app.use(cors()); // CORS Errors in client
 app.use(helmet()); // Helmet Application Security; Middelware; HTTPS Headers
 app.use(morgan("dev")); // Logs Requests
 
-app.get("/test", (req, res) => {
-    console.log(res.getHeaders());
-    res.send("Hello from the backend! You're at /test");
-});
+app.get("/api/products", productRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server Running on Port ${PORT}`);
