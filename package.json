@@ -4,7 +4,7 @@
   "description": "",
   "main": "Backend/server.js",
   "scripts": {
-    "dev": "nodemon backend/server.js"
+    "dev": "nodemon Backend/server.js"
   },
   "keywords": [],
   "author": "Ilja",

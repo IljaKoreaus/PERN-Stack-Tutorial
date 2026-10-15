@@ -1,7 +1,6 @@
 import {sql} from "../config/db.js";
 
 // CRUD OPERATIONS FOR BACKEND
-
 export const getProducts = async (req, res) => {
 
     try {
@@ -12,7 +11,6 @@ export const getProducts = async (req, res) => {
 
         console.log("Fetched products");
         res.status(200).json({success:true, data: products});
-
     } catch (error) {
 
         console.log("Error with getProducts function", error);
@@ -103,7 +101,7 @@ export const deleteProduct = async (req, res) => {
 
     try {
         const deletedProduct = await sql`
-            DELETE products
+            DELETE FROM products
             WHERE id = ${id}
             RETURNING *
         `;

@@ -9,16 +9,15 @@ import {sql} from "./config/db.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT;
-
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json()); // Extraction of JSON data
 app.use(cors()); // CORS Errors in client
 app.use(helmet()); // Helmet Application Security; Middelware; HTTPS Headers
 app.use(morgan("dev")); // Logs Requests
 
-app.get("/api/products", productRoutes);
+app.use("/api/products", productRoutes);
 
 async function initDB() {
     try {
