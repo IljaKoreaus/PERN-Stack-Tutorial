@@ -3,6 +3,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path"
 
 import productRoutes from "./routes/productRoutes.js";
 import {sql} from "./config/db.js";
@@ -12,10 +13,13 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const __dirname = path.resolve();
 
 app.use(express.json()); // Extraction of JSON data
 app.use(cors()); // CORS Errors in client
-app.use(helmet()); // Helmet Application Security; Middelware; HTTPS Headers
+app.use(helmet({
+    contentSecurityPolicy: false
+})); // Helmet Application Security; Middelware; HTTPS Headers
 app.use(morgan("dev")); // Logs Requests
 
 // Implementing arcjet (rate limiting, bot detection & shield)
@@ -56,6 +60,15 @@ app.use(async (req, res, next) => {
 })
 
 app.use("/api/products", productRoutes);
+
+if (process.env.NODE_ENV==="production") {
+    // Serve React App
+    app.use(express.static(path.join(__dirname, "Frontend/dist")));
+
+    app.get("/{*splat}", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "Frontend", "dist", "index.html"));
+    });
+}
 
 async function initDB() {
     try {
